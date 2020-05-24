@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title id="title" data-title="Chat | Chat">Chat | Chat</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Alexey Lagun">
+        <meta name="description" content="Yet another chat application">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="css/header.css">
+        <link rel="stylesheet" type="text/css" href="css/chat-window.css">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/1fa35d6678.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <header>
+            <a href="/layout/login.html" id="logo">Chat</a>
+            <nav>
+                <a href="#"><i class="far fa-moon"></i></a>
+                <a href="#"><i class="fas fa-plus-circle"></i></a>
+                <a href="#"><i class="fas fa-user-cog"></i></a>
+                <a href="#"><i class="fas fa-sign-out-alt"></i></a>
+            </nav>
+        </header>
+        <main class="main" id="main">
+            <section class="chat-window chat-window--active" id="chat-window">
+                <div class="chat-header">
+                    <p class="chat-name">VIP only</p>
+                </div>
+
+                <div class="chat-history">
+                    <div class="chat-message chat-message-other" id="message-1">
+                        <div class="chat-message-container">
+                            <img src="images/default-avatar.png">
+                            <div class="chat-message-main">
+                                <div class="chat-message-upper-row">
+                                    <p class="chat-message-nick">Alex</p>
+                                    <p class="chat-message-sending-indicator"></p>
+                                </div>
+                                <p class="chat-message-text">Hi!</p>
+                                <time class="chat-message-datetime" datetime="2020-05-17T22:49">17.05.2020 22:49</time>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message chat-message-my" id="message-2">
+                        <div class="chat-message-container">
+                            <img src="images/default-avatar.png">
+                            <div class="chat-message-main">
+                                <div class="chat-message-upper-row">
+                                    <p class="chat-message-nick">Nick</p>
+                                    <p class="chat-message-sending-indicator read">
+                                        <i class="fas fa-check-double"></i>
+                                    </p>
+                                </div>
+                                <p class="chat-message-text">Hello!</p>
+                                <time class="chat-message-datetime" datetime="2020-05-17T23:08">17.05.2020 23:08</time>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message" id="message-3">
+                        <div class="chat-message-container">
+                            <img src="images/default-avatar.png">
+                            <div class="chat-message-main">
+                                <div class="chat-message-upper-row">
+                                    <p class="chat-message-nick">Alex</p>
+                                    <p class="chat-message-sending-indicator">
+                                        <i class="fas fa-check-double"></i>
+                                    </p>
+                                </div>
+                                <p class="chat-message-text">cjxbxkkjxjvbxvbxckvjbcxbvkxcbjbvjxcvbxjckvkxckvxxcbvcbvhcbvchvbfjdvbfjkdbdbvjkbvsjkdbvjkdbvjsbjkcdsjkcdsbjkvcs</p>
+                                <time class="chat-message-datetime" datetime="2020-05-17T23:17">17.05.2020 23:17</time>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message chat-message-my" id="message-4">
+                        <div class="chat-message-container">
+                            <img src="images/default-avatar.png">
+                            <div class="chat-message-main">
+                                <div class="chat-message-upper-row">
+                                    <p class="chat-message-nick">Nick</p>
+                                    <p class="chat-message-sending-indicator read">
+                                        <i class="fas fa-check-double"></i>
+                                    </p>
+                                </div>
+                                <p class="chat-message-text">cjxbxkkjxjvbxvbxckvjbcxbvkxcbjbvjxcvbxjckvkxckvxxcbvcbvhcbvchvbfjdvbfjkdbdbvjkbvkjfdbvjkdbvjkvjkdjdbjkvbvkbsdsd</p>
+                                <time class="chat-message-datetime" datetime="2020-05-17T23:18">17.05.2020 23:18</time>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message chat-message-my" id="message-5">
+                        <div class="chat-message-container">
+                            <img src="images/default-avatar.png">
+                            <div class="chat-message-main">
+                                <div class="chat-message-upper-row">
+                                    <p class="chat-message-nick">Nick</p>
+                                    <p class="chat-message-sending-indicator read">
+                                        <i class="fas fa-check-double"></i>
+                                    </p>
+                                </div>
+                                <p class="chat-message-text">cjxbxkkjxjvbxvbxckvjbcxbvkxcbjbvjxcvbxjckvkxckvxxcbvcbvhcbvchvbfjdvbfjkdbdbvjkbvdvdsvfdvdvfdvfdvfdvfdvfdvd</p>
+                                <time class="chat-message-datetime" datetime="2020-05-17T23:18">17.05.2020 23:18</time>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-message" id="message-6">
+                        <div class="chat-message-container">
+                            <img src="images/default-avatar.png">
+                            <div class="chat-message-main">
+                                <div class="chat-message-upper-row">
+                                    <p class="chat-message-nick">Alex</p>
+                                    <p class="chat-message-sending-indicator">
+                                        <i class="fas fa-check-double"></i>
+                                    </p>
+                                </div>
+                                <p class="chat-message-text">cjxbxkkjxjvbxvbxckvjbcxbvkxcbjbvjxcvbxjckvkxckvxxcbvcbvhcbvchvbfjdvbfjkdbdbvjkbvdvdsvfdvdvfdvfdvfdvfdvfdvd</p>
+                                <time class="chat-message-datetime" datetime="2020-05-17T23:25">17.05.2020 23:25</time>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <div class="typing-indicator-block">
+                        <p class="typing-indicator">Alex is typing...</p>
+                    </div>
+                    <div class="message-block">
+                        <textarea class="message-box" placeholder="Enter message..." rows="3"></textarea>
+                        <button class="sticker-btn" id="sticker-btn">
+                            <i class="far fa-smile"></i>
+                        </button>
+                        <button class="send-btn" id="send-btn">
+                            <i class="far fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>

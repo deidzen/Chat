@@ -6,11 +6,14 @@
     --lighter: #707ed7;
     --darker: #071672;
     --font-color: #000000;
+    --font-color-lighter: #0000008f;
     --bg-color: #cfcfcf;
     --bg-color-darker: #bebebe;
+    --bg-color-lighter: #d6d6d6;
     --form-bg-color: #fff;
     --font-secondary-color: #fff;
     --checkbox-shadow: #707ed785;
+    --toggle-color: #a5a5a5;
 }
 
 body {
