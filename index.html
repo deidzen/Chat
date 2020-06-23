@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title id="title" data-title="Chat">Chat</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Alexey Lagun">
+        <meta name="description" content="Yet another chat application">
+        <link rel="stylesheet" type="text/css" href="layout/css/styles.css">
+        <link rel="stylesheet" type="text/css" href="layout/css/header.css">
+        <link rel="stylesheet" type="text/css" href="layout/css/settings.css">
+        <link rel="stylesheet" type="text/css" href="layout/css/add-chat.css">
+        <link rel="stylesheet" type="text/css" href="layout/css/chat.css">
+        <link rel="stylesheet" type="text/css" href="layout/css/login.css">
+        <link rel="stylesheet" type="text/css" href="layout/css/register.css">
+        <script type="module" src="index.js"></script>
+        <script src="https://kit.fontawesome.com/1fa35d6678.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <header>
+        </header>
+        <main>
+        </main>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-analytics.js"></script>
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyAhqGBG9TtQFiDWknko-QzOMW2X4araJaw",
+            authDomain: "chat-deidzen.firebaseapp.com",
+            databaseURL: "https://chat-deidzen.firebaseio.com",
+            projectId: "chat-deidzen",
+            storageBucket: "chat-deidzen.appspot.com",
+            messagingSenderId: "1060311456272",
+            appId: "1:1060311456272:web:5ebba4c4bf5fad7bcec895",
+            measurementId: "G-JXLBQ16QE5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+        const auth = firebase.auth();
+        const db = firebase.database();
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        
+        </script>
+    </body>
+</html>
