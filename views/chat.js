@@ -26,22 +26,14 @@ let Chat = {
                             <span class="toggle-label">all</span>
                         </div>
                     </form>
-                    <table class="chat-table">
+                    <table class="chat-table" id="chat-table">
                         <thead>
                             <tr>
                                 <th>NAME</th>
                                 <th>TYPE</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>public chat</td>
-                                <td>PUBLIC</td>
-                            </tr>
-                            <tr>
-                                <td>VIP only</td>
-                                <td>SECRET</td>
-                            </tr>
+                        <tbody id="chat-table-body">
                         </tbody>
                     </table>
                 </section>
@@ -174,6 +166,21 @@ let Chat = {
                 auth.signOut();
             })
         }
+
+        const snapshot = await db.ref('/chats/').once('value');
+        const chatsList = snapshot.val();
+        const chatTableBody = document.getElementById("chat-table-body");
+        chatsList.forEach(element => {
+            console.log(element);
+            let tr = document.createElement('tr');
+            let chatName = document.createElement('td');
+            chatName.appendChild(document.createTextNode(element.name));
+            let chatType = document.createElement('td');
+            chatType.appendChild(document.createTextNode(element.chat_type));
+            tr.appendChild(chatName);
+            tr.appendChild(chatType);
+            chatTableBody.appendChild(tr);
+        });
     }
 };
 

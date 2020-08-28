@@ -43,3 +43,20 @@ export function setImage(file, imageId, extension) {
     let imageRef = storage.ref('/images/' + imageId + '.' + extension);
     return imageRef.put(file);
 }
+
+export function setChatId(id) {
+    db.ref('/chat_count').set({ id });
+}
+
+export async function getChatId() {
+    const snapshot = await db.ref('/chat_count/id').once('value');
+    return snapshot.val();
+}
+
+export function setChat(id, name, chatType, password) {
+    db.ref('/chats/' + id).set({
+        name: name,
+        chat_type: chatType,
+        password: password
+    });
+}
