@@ -55,8 +55,25 @@ export async function getChatId() {
 
 export function setChat(id, name, chatType, password) {
     db.ref('/chats/' + id).set({
+        id: id,
         name: name,
         chat_type: chatType,
         password: password
+    });
+}
+
+export async function getChat(id) {
+    const snapshot = await db.ref('/chats/' + id).once('value');
+    return snapshot.val();
+}
+
+export async function getChatUsers(chatId) {
+    const snapshot = await db.ref('/chats/' + chatId + '/users/').once('value');
+    return snapshot.val();
+}
+
+export function setChatUser(chatId) {
+    db.ref('/chats/' + chatId + '/users/' + auth.currentUser.uid).set({
+        user: auth.currentUser.uid
     });
 }

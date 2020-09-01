@@ -1,3 +1,5 @@
+import * as database from './../services/database.js';
+
 let Chat = {
     render: async () => {
         return `
@@ -39,7 +41,7 @@ let Chat = {
                 </section>
                 <section class="chat-window" id="chat-window">
                     <div class="chat-header">
-                        <p class="chat-name">VIP only</p>
+                        <p class="chat-name" id="chat-name">VIP only</p>
                     </div>
 
                     <div class="chat-history">
@@ -158,7 +160,7 @@ let Chat = {
         `;
     },
 
-    afterRender: async() => {
+    afterRender: async(chatId) => {
         const logoutBtn = document.getElementById("logout-btn");
 
         if (logoutBtn) {
@@ -171,16 +173,32 @@ let Chat = {
         const chatsList = snapshot.val();
         const chatTableBody = document.getElementById("chat-table-body");
         chatsList.forEach(element => {
-            console.log(element);
             let tr = document.createElement('tr');
+            tr.dataset.chatId = element.id;
             let chatName = document.createElement('td');
             chatName.appendChild(document.createTextNode(element.name));
             let chatType = document.createElement('td');
             chatType.appendChild(document.createTextNode(element.chat_type));
             tr.appendChild(chatName);
             tr.appendChild(chatType);
+            tr.addEventListener('click', () => {
+                window.location.hash = '/chat/' + tr.dataset.chatId;
+            })
             chatTableBody.appendChild(tr);
         });
+
+        if (chatId) {
+            const chatName = document.getElementById("chat-name");
+            const chat = await database.getChat(chatId);
+            chatName.innerHTML = chat.name;
+
+            const usersList = await database.getChatUsers(chatId);
+            console.log(usersList);
+            if (usersList == null || usersList[auth.currentUser.uid] == null) {
+                database.setChatUser(chatId);
+            }
+        }
+
     }
 };
 

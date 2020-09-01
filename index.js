@@ -38,7 +38,8 @@ const router = async () => {
     if (page === Chat) {
         if (firebase.auth().currentUser) {
             body.innerHTML = await page.render(); 
-            await page.afterRender();
+            // await page.afterRender();
+            await page.afterRender(Number.parseInt(request.id));
         } else {
             body.innerHTML = await Login.render();
             window.location.hash = '/';
