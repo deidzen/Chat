@@ -76,4 +76,7 @@ export function setChatUser(chatId) {
     db.ref('/chats/' + chatId + '/users/' + auth.currentUser.uid).set({
         user: auth.currentUser.uid
     });
+    db.ref('/users/' + auth.currentUser.uid + '/chats/' + chatId).set({
+        id: chatId
+    });
 }
