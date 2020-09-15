@@ -37,7 +37,7 @@ let Settings = {
         let image = null;
         let imageExtension = null;
 
-        let userNickname = await database.getUserNickname();
+        let userNickname = await database.getUserNickname(auth.currentUser.uid);
         const nicknameInput = document.getElementById("nickname");
         nicknameInput.value = userNickname;
 
@@ -48,7 +48,7 @@ let Settings = {
         });
         
         const userAvatar = document.getElementById("user-avatar");
-        let avatar = await database.getUserAvatar();
+        let avatar = await database.getUserAvatar(auth.currentUser.uid);
         if (avatar) {
             let avatarURL = await database.getImage(avatar);
             userAvatar.src = avatarURL;

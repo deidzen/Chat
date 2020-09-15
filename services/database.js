@@ -1,11 +1,12 @@
-export async function getUserNickname() {
-    let user = auth.currentUser;
-    if (!user)
+export async function getUserNickname(uid) {
+    if (!uid)
         return null;
     
-    const snapshot = await db.ref('/users/' + user.uid + '/nickname').once('value');
+    const snapshot = await db.ref('/users/' + uid + '/nickname').once('value');
     return snapshot.val();
 }
+
+
 
 export async function setUserNickname(nick) {
     let user = auth.currentUser;
@@ -16,11 +17,11 @@ export async function setUserNickname(nick) {
     }
 }
 
-export async function getUserAvatar() {
-    let user = auth.currentUser;
-    if (!user)
+export async function getUserAvatar(uid) {
+    if (!uid)
         return null;
-    const snapshot = await db.ref('/users/' + user.uid + '/avatar').once('value');
+    
+    const snapshot = await db.ref('/users/' + uid + '/avatar').once('value');
     return snapshot.val();
 }
 
@@ -34,8 +35,13 @@ export function setImageId(id) {
 }
 
 export async function getImage(avatar) {
-    const imgRef = storage.ref('/images/' + avatar);
-    const downloadURL = await imgRef.getDownloadURL();
+    let imgRef;
+    if (avatar) {
+        imgRef = storage.ref('/images/' + avatar);   
+    } else {
+        imgRef = storage.ref('/images/default-avatar.png');
+    }
+    let downloadURL = await imgRef.getDownloadURL();
     return downloadURL;
 }
 

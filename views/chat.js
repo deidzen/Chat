@@ -44,100 +44,8 @@ let Chat = {
                         <p class="chat-name" id="chat-name">VIP only</p>
                     </div>
 
-                    <div class="chat-history">
-                        <div class="chat-message chat-message-other" id="message-1">
-                            <div class="chat-message-container">
-                                <img src="images/default-avatar.png">
-                                <div class="chat-message-main">
-                                    <div class="chat-message-upper-row">
-                                        <p class="chat-message-nick">Alex</p>
-                                        <p class="chat-message-sending-indicator"></p>
-                                    </div>
-                                    <p class="chat-message-text">Hi!</p>
-                                    <time class="chat-message-datetime" datetime="2020-05-17T22:49">17.05.2020 22:49</time>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chat-message chat-message-my" id="message-2">
-                            <div class="chat-message-container">
-                                <img src="images/default-avatar.png">
-                                <div class="chat-message-main">
-                                    <div class="chat-message-upper-row">
-                                        <p class="chat-message-nick">Nick</p>
-                                        <p class="chat-message-sending-indicator read">
-                                            <i class="fas fa-check-double"></i>
-                                        </p>
-                                    </div>
-                                    <p class="chat-message-text">Hello!</p>
-                                    <time class="chat-message-datetime" datetime="2020-05-17T23:08">17.05.2020 23:08</time>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chat-message" id="message-3">
-                            <div class="chat-message-container">
-                                <img src="images/default-avatar.png">
-                                <div class="chat-message-main">
-                                    <div class="chat-message-upper-row">
-                                        <p class="chat-message-nick">Alex</p>
-                                        <p class="chat-message-sending-indicator">
-                                            <i class="fas fa-check-double"></i>
-                                        </p>
-                                    </div>
-                                    <p class="chat-message-text">cjxbxkkjxjvbxvbxckvjbcxbvkxcbjbvjxcvbxjckvkxckvxxcbvcbvhcbvchvbfjdvbfjkdbdbvjkbvsjkdbvjkdbvjsbjkcdsjkcdsbjkvcs</p>
-                                    <time class="chat-message-datetime" datetime="2020-05-17T23:17">17.05.2020 23:17</time>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chat-message chat-message-my" id="message-4">
-                            <div class="chat-message-container">
-                                <img src="images/default-avatar.png">
-                                <div class="chat-message-main">
-                                    <div class="chat-message-upper-row">
-                                        <p class="chat-message-nick">Nick</p>
-                                        <p class="chat-message-sending-indicator read">
-                                            <i class="fas fa-check-double"></i>
-                                        </p>
-                                    </div>
-                                    <p class="chat-message-text">cjxbxkkjxjvbxvbxckvjbcxbvkxcbjbvjxcvbxjckvkxckvxxcbvcbvhcbvchvbfjdvbfjkdbdbvjkbvkjfdbvjkdbvjkvjkdjdbjkvbvkbsdsd</p>
-                                    <time class="chat-message-datetime" datetime="2020-05-17T23:18">17.05.2020 23:18</time>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chat-message chat-message-my" id="message-5">
-                            <div class="chat-message-container">
-                                <img src="images/default-avatar.png">
-                                <div class="chat-message-main">
-                                    <div class="chat-message-upper-row">
-                                        <p class="chat-message-nick">Nick</p>
-                                        <p class="chat-message-sending-indicator read">
-                                            <i class="fas fa-check-double"></i>
-                                        </p>
-                                    </div>
-                                    <p class="chat-message-text">cjxbxkkjxjvbxvbxckvjbcxbvkxcbjbvjxcvbxjckvkxckvxxcbvcbvhcbvchvbfjdvbfjkdbdbvjkbvdvdsvfdvdvfdvfdvfdvfdvfdvd</p>
-                                    <time class="chat-message-datetime" datetime="2020-05-17T23:18">17.05.2020 23:18</time>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="chat-message" id="message-6">
-                            <div class="chat-message-container">
-                                <img src="images/default-avatar.png">
-                                <div class="chat-message-main">
-                                    <div class="chat-message-upper-row">
-                                        <p class="chat-message-nick">Alex</p>
-                                        <p class="chat-message-sending-indicator">
-                                            <i class="fas fa-check-double"></i>
-                                        </p>
-                                    </div>
-                                    <p class="chat-message-text">cjxbxkkjxjvbxvbxckvjbcxbvkxcbjbvjxcvbxjckvkxckvxxcbvcbvhcbvchvbfjdvbfjkdbdbvjkbvdvdsvfdvdvfdvfdvfdvfdvfdvd</p>
-                                    <time class="chat-message-datetime" datetime="2020-05-17T23:25">17.05.2020 23:25</time>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="chat-history" id="chat-history">
+                        
                     </div>
 
                     <div class="chat-input">
@@ -168,7 +76,7 @@ let Chat = {
                 auth.signOut();
             })
         }
-
+        
         const snapshot = await db.ref('/chats/').once('value');
         const chatsList = snapshot.val();
         const chatTableBody = document.getElementById("chat-table-body");
@@ -193,10 +101,71 @@ let Chat = {
             chatName.innerHTML = chat.name;
 
             const usersList = await database.getChatUsers(chatId);
-            console.log(usersList);
             if (usersList == null || usersList[auth.currentUser.uid] == null) {
                 database.setChatUser(chatId);
             }
+            
+            
+            let messagesRef = db.ref('/chats/' + chatId + '/messages/');
+            messagesRef.on('child_added', async function (data) {
+                console.log(data.val());
+                console.log(auth.currentUser.uid);
+                let messageDiv = document.createElement('div');
+                messageDiv.classList.add("chat-message");
+                messageDiv.id = data.val().id;
+                if (data.val().user === auth.currentUser.uid) {
+                    messageDiv.classList.add("chat-message-my");
+                }
+                let messageContainerDiv = document.createElement('div');
+                messageContainerDiv.classList.add("chat-message-container");
+                
+                let messageAvatarImg = document.createElement('img');
+                let userAvatar = await database.getUserAvatar(data.val().user);
+                let avatarImage = await database.getImage(userAvatar);
+                messageAvatarImg.src = avatarImage;
+                
+                let messageMainDiv = document.createElement('div');
+                messageMainDiv.classList.add("chat-message-main");
+
+                let upperRowDiv = document.createElement('div');
+                upperRowDiv.classList.add("chat-message-upper-row");
+
+                let messageNickP = document.createElement('p');
+                messageNickP.classList.add("chat-message-nick");
+                messageNickP.innerHTML = await database.getUserNickname(data.val().user);
+                upperRowDiv.appendChild(messageNickP);
+
+
+                if (data.val().user === auth.currentUser.uid) {
+                    let messageSendingIndicatorP = document.createElement('p');
+                    messageSendingIndicatorP.classList.add("chat-message-sending-indicator");
+                    messageSendingIndicatorP.classList.add("read");
+                    messageSendingIndicatorP.innerHTML = "<i class=\"fas fa-check-double\"></i>";
+                    upperRowDiv.appendChild(messageSendingIndicatorP);
+                }
+
+                let messageTextP = document.createElement("p");
+                messageTextP.classList.add("chat-message-text");
+                messageTextP.innerHTML = data.val().text;
+
+                let messageDateTime = document.createElement('time');
+                messageDateTime.classList.add("chat-message-datetime");
+                messageDateTime.innerHTML = data.val().datetime;
+
+                messageMainDiv.appendChild(upperRowDiv);
+                messageMainDiv.appendChild(messageTextP);
+                messageMainDiv.appendChild(messageDateTime);
+
+                messageContainerDiv.appendChild(messageAvatarImg);
+                messageContainerDiv.appendChild(messageMainDiv);
+
+                messageDiv.appendChild(messageContainerDiv);
+
+                const chatHistory = document.getElementById("chat-history");
+                chatHistory.appendChild(messageDiv);
+
+            });
+            
         }
 
     }
