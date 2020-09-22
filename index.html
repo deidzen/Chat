@@ -27,6 +27,7 @@
         <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-storage.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-firestore.js"></script>
         <!-- TODO: Add SDKs for Firebase products that you want to use
             https://firebase.google.com/docs/web/setup#available-libraries -->
 
@@ -47,10 +48,10 @@
         firebase.analytics();
 
         const auth = firebase.auth();
+        const firestore = firebase.firestore();
         const db = firebase.database();
         const storage = firebase.storage();
         const storageRef = storage.ref();
-        
         </script>
     </body>
 </html>

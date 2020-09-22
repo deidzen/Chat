@@ -94,6 +94,76 @@ let Chat = {
             })
             chatTableBody.appendChild(tr);
         });
+        
+        function convertTimestamp(timestamp) {
+            let date = new Date(timestamp.seconds * 1000);
+            let formatter = new Intl.DateTimeFormat("ru", {
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric"
+            });
+            return formatter.format(date);
+        }
+
+        async function processMessage(data) {
+            let messageDiv = document.createElement('div');
+            messageDiv.classList.add("chat-message");
+            messageDiv.id = data.id;
+            if (data.user === auth.currentUser.uid) {
+                messageDiv.classList.add("chat-message-my");
+            }
+            let messageContainerDiv = document.createElement('div');
+            messageContainerDiv.classList.add("chat-message-container");
+            
+            let messageAvatarImg = document.createElement('img');
+            let userAvatar = await database.getUserAvatar(data.user);
+            let avatarImage = await database.getImage(userAvatar);
+            messageAvatarImg.src = avatarImage;
+            
+            let messageMainDiv = document.createElement('div');
+            messageMainDiv.classList.add("chat-message-main");
+
+            let upperRowDiv = document.createElement('div');
+            upperRowDiv.classList.add("chat-message-upper-row");
+
+            let messageNickP = document.createElement('p');
+            messageNickP.classList.add("chat-message-nick");
+            messageNickP.innerHTML = await database.getUserNickname(data.user);
+            upperRowDiv.appendChild(messageNickP);
+
+
+            if (data.user === auth.currentUser.uid) {
+                let messageSendingIndicatorP = document.createElement('p');
+                messageSendingIndicatorP.classList.add("chat-message-sending-indicator");
+                messageSendingIndicatorP.classList.add("read");
+                messageSendingIndicatorP.innerHTML = "<i class=\"fas fa-check-double\"></i>";
+                upperRowDiv.appendChild(messageSendingIndicatorP);
+            }
+
+            let messageTextP = document.createElement("p");
+            messageTextP.classList.add("chat-message-text");
+            messageTextP.innerHTML = data.text;
+
+            let messageDateTime = document.createElement('time');
+            messageDateTime.classList.add("chat-message-datetime");
+            messageDateTime.innerHTML = convertTimestamp(data.datetime);
+
+            messageMainDiv.appendChild(upperRowDiv);
+            messageMainDiv.appendChild(messageTextP);
+            messageMainDiv.appendChild(messageDateTime);
+
+            messageContainerDiv.appendChild(messageAvatarImg);
+            messageContainerDiv.appendChild(messageMainDiv);
+
+            messageDiv.appendChild(messageContainerDiv);
+
+            const chatHistory = document.getElementById("chat-history");
+            chatHistory.appendChild(messageDiv);
+        }
+
 
         if (chatId) {
             const chatName = document.getElementById("chat-name");
@@ -104,67 +174,16 @@ let Chat = {
             if (usersList == null || usersList[auth.currentUser.uid] == null) {
                 database.setChatUser(chatId);
             }
-            
-            
-            let messagesRef = db.ref('/chats/' + chatId + '/messages/');
-            messagesRef.on('child_added', async function (data) {
-                console.log(data.val());
-                console.log(auth.currentUser.uid);
-                let messageDiv = document.createElement('div');
-                messageDiv.classList.add("chat-message");
-                messageDiv.id = data.val().id;
-                if (data.val().user === auth.currentUser.uid) {
-                    messageDiv.classList.add("chat-message-my");
+
+            let query = firestore
+                .collection('chats/' + chatId + '/messages')
+                .orderBy('datetime', 'asc');
+            query.onSnapshot(async function (snapshot) {
+                let changes = snapshot.docChanges();
+                for (const change of changes) {
+                    await processMessage(change.doc.data());
                 }
-                let messageContainerDiv = document.createElement('div');
-                messageContainerDiv.classList.add("chat-message-container");
-                
-                let messageAvatarImg = document.createElement('img');
-                let userAvatar = await database.getUserAvatar(data.val().user);
-                let avatarImage = await database.getImage(userAvatar);
-                messageAvatarImg.src = avatarImage;
-                
-                let messageMainDiv = document.createElement('div');
-                messageMainDiv.classList.add("chat-message-main");
-
-                let upperRowDiv = document.createElement('div');
-                upperRowDiv.classList.add("chat-message-upper-row");
-
-                let messageNickP = document.createElement('p');
-                messageNickP.classList.add("chat-message-nick");
-                messageNickP.innerHTML = await database.getUserNickname(data.val().user);
-                upperRowDiv.appendChild(messageNickP);
-
-
-                if (data.val().user === auth.currentUser.uid) {
-                    let messageSendingIndicatorP = document.createElement('p');
-                    messageSendingIndicatorP.classList.add("chat-message-sending-indicator");
-                    messageSendingIndicatorP.classList.add("read");
-                    messageSendingIndicatorP.innerHTML = "<i class=\"fas fa-check-double\"></i>";
-                    upperRowDiv.appendChild(messageSendingIndicatorP);
-                }
-
-                let messageTextP = document.createElement("p");
-                messageTextP.classList.add("chat-message-text");
-                messageTextP.innerHTML = data.val().text;
-
-                let messageDateTime = document.createElement('time');
-                messageDateTime.classList.add("chat-message-datetime");
-                messageDateTime.innerHTML = data.val().datetime;
-
-                messageMainDiv.appendChild(upperRowDiv);
-                messageMainDiv.appendChild(messageTextP);
-                messageMainDiv.appendChild(messageDateTime);
-
-                messageContainerDiv.appendChild(messageAvatarImg);
-                messageContainerDiv.appendChild(messageMainDiv);
-
-                messageDiv.appendChild(messageContainerDiv);
-
-                const chatHistory = document.getElementById("chat-history");
-                chatHistory.appendChild(messageDiv);
-
-            });
+            })
             
         }
 
