@@ -1,37 +1,49 @@
 export async function getUserNickname(uid) {
     if (!uid)
         return null;
-    
-    const snapshot = await db.ref('/users/' + uid + '/nickname').once('value');
-    return snapshot.val();
+    let userRef = firestore.collection("users").doc(uid);
+    let nickname;
+    await userRef.get().then(function (doc) {
+        nickname = doc.data().nickname;
+    })
+    return nickname;
 }
-
-
 
 export async function setUserNickname(nick) {
     let user = auth.currentUser;
     if (user) {
-        const snapshot = (await db.ref('/users/' + user.uid).once('value')).val();
-        snapshot['nickname'] = nick;
-        db.ref('/users/' + user.uid).set(snapshot);
+        let userRef = firestore.collection("users").doc(user.uid);
+        userRef.update({
+            nickname: nick
+        })
     }
 }
 
 export async function getUserAvatar(uid) {
     if (!uid)
         return null;
-    
-    const snapshot = await db.ref('/users/' + uid + '/avatar').once('value');
-    return snapshot.val();
+    let userRef = firestore.collection("users").doc(uid);
+    let avatar;
+    await userRef.get().then(function (doc) {
+        avatar = doc.data().avatar;
+    })
+    return avatar;
 }
 
 export async function getImageId() {
-    const snapshot = await db.ref('/image_count/id').once('value');
-    return snapshot.val();
+    let imageIdRef = firestore.collection("counters").doc("image_count");
+    let counter;
+    await imageIdRef.get().then(function (doc) {
+        counter = doc.data().counter;
+    })
+    return counter;
 }
 
 export function setImageId(id) {
-    db.ref('/image_count').set({ id });
+    let imageIdRef = firestore.collection("counters").doc("image_count");
+    imageIdRef.update({
+        counter: id
+    })
 }
 
 export async function getImage(avatar) {
@@ -51,38 +63,58 @@ export function setImage(file, imageId, extension) {
 }
 
 export function setChatId(id) {
-    db.ref('/chat_count').set({ id });
+    let chatIdRef = firestore.collection("counters").doc("chat_count");
+    chatIdRef.update({
+        counter: id
+    })
 }
 
 export async function getChatId() {
-    const snapshot = await db.ref('/chat_count/id').once('value');
-    return snapshot.val();
+    let chatIdRef = firestore.collection("counters").doc("chats_count");
+    let counter;
+    await chatIdRef.get().then(function (doc) {
+        counter = doc.data().counter;
+    })
+    return counter;
 }
 
 export function setChat(id, name, chatType, password) {
-    db.ref('/chats/' + id).set({
-        id: id,
-        name: name,
-        chat_type: chatType,
-        password: password
-    });
+    firestore
+        .collection("chats")
+        .doc(id.toString())
+        .set({
+            id: id,
+            name: name,
+            chat_type: chatType,
+            password: password
+        });
 }
 
 export async function getChat(id) {
-    const snapshot = await db.ref('/chats/' + id).once('value');
-    return snapshot.val();
+    let chatRef = firestore.collection("chats").doc(id.toString());
+    let chat;
+    await chatRef.get().then(function (doc) {
+        chat = doc.data();
+    })
+    return chat;
 }
 
 export async function getChatUsers(chatId) {
-    const snapshot = await db.ref('/chats/' + chatId + '/users/').once('value');
-    return snapshot.val();
+    let chatRef = firestore.collection("chats").doc(chatId.toString());
+    let users;
+    await chatRef.get().then(function (doc) {
+        users = doc.data().users;
+    })
+    return users;
 }
 
 export function setChatUser(chatId) {
-    db.ref('/chats/' + chatId + '/users/' + auth.currentUser.uid).set({
-        user: auth.currentUser.uid
-    });
-    db.ref('/users/' + auth.currentUser.uid + '/chats/' + chatId).set({
-        id: chatId
-    });
+    let chatRef = firestore.collection("chats").doc(chatId.toString());
+    chatRef.update({
+        [`users.${auth.currentUser.uid}`]: auth.currentUser.uid
+    })
+    let userRef = firestore.collection("users").doc(auth.currentUser.uid);
+    userRef.update({
+        [`chats.${chatId}`]: chatId.toString()
+    })
 }

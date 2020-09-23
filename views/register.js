@@ -47,11 +47,12 @@ let Register = {
                 promise
                     .then(async function (newUser) {
                         let uid = newUser.user.uid;
-                        
-                        db.ref('/users/' + uid).set({
+
+                        let newUserRef = firestore.collection("users").doc(uid);
+                        newUserRef.set({
                             nickname: nickname,
                             email: email
-                        });
+                        })
                     })
                     .catch(e => {
                         alert(e.message);

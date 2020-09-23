@@ -86,10 +86,10 @@ let AddChat = {
             }
 
             if (ok) {
+                database.setChatId(chatId + 1);
                 database.setChat(chatId + 1, name, chatType, password);
                 alert(`Chat ${name} created successfully!`);
                 window.location.hash = '/chat';
-                database.setChatId(chatId + 1);
             }
         });
     }

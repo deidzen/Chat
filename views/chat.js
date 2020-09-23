@@ -77,23 +77,24 @@ let Chat = {
             })
         }
         
-        const snapshot = await db.ref('/chats/').once('value');
-        const chatsList = snapshot.val();
         const chatTableBody = document.getElementById("chat-table-body");
-        chatsList.forEach(element => {
-            let tr = document.createElement('tr');
-            tr.dataset.chatId = element.id;
-            let chatName = document.createElement('td');
-            chatName.appendChild(document.createTextNode(element.name));
-            let chatType = document.createElement('td');
-            chatType.appendChild(document.createTextNode(element.chat_type));
-            tr.appendChild(chatName);
-            tr.appendChild(chatType);
-            tr.addEventListener('click', () => {
-                window.location.hash = '/chat/' + tr.dataset.chatId;
+
+        firestore.collection("chats").get().then(function (chatsList) {
+            chatsList.forEach(function (element) {
+                let tr = document.createElement('tr');
+                tr.dataset.chatId = element.get('id');
+                let chatName = document.createElement('td');
+                chatName.appendChild(document.createTextNode(element.get('name')));
+                let chatType = document.createElement('td');
+                chatType.appendChild(document.createTextNode(element.get('chat_type')));
+                tr.appendChild(chatName);
+                tr.appendChild(chatType);
+                tr.addEventListener('click', () => {
+                    window.location.hash = '/chat/' + tr.dataset.chatId;
+                })
+                chatTableBody.appendChild(tr);
             })
-            chatTableBody.appendChild(tr);
-        });
+        })
         
         function convertTimestamp(timestamp) {
             let date = new Date(timestamp.seconds * 1000);

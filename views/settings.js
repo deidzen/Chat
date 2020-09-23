@@ -36,7 +36,7 @@ let Settings = {
 
         let image = null;
         let imageExtension = null;
-
+        
         let userNickname = await database.getUserNickname(auth.currentUser.uid);
         const nicknameInput = document.getElementById("nickname");
         nicknameInput.value = userNickname;
@@ -74,12 +74,12 @@ let Settings = {
                    });
                 });
 
-                database.setImageId(imageId + 1);
                 imageId++;
+                database.setImageId(imageId);
                 let userId = auth.currentUser.uid;
-                await db.ref('/users/' + userId).update({
+                await firestore.collection("users").doc(userId.toString()).update({
                     avatar: imageId + '.' + imageExtension
-                });
+                })
             }
             database.setUserNickname(nicknameInput.value)
             .then(async function () {
