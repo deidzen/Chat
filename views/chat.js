@@ -53,7 +53,7 @@ let Chat = {
                             <p class="typing-indicator">Alex is typing...</p>
                         </div>
                         <div class="message-block">
-                            <textarea class="message-box" placeholder="Enter message..." rows="3"></textarea>
+                            <textarea class="message-box" id="message-box" placeholder="Enter message..." rows="3"></textarea>
                             <button class="sticker-btn" id="sticker-btn">
                                 <i class="far fa-smile"></i>
                             </button>
@@ -109,10 +109,11 @@ let Chat = {
             return formatter.format(date);
         }
 
-        async function processMessage(data) {
+        async function processMessage(doc) {
             let messageDiv = document.createElement('div');
             messageDiv.classList.add("chat-message");
-            messageDiv.id = data.id;
+            messageDiv.id = doc.id;
+            let data = doc.data();
             if (data.user === auth.currentUser.uid) {
                 messageDiv.classList.add("chat-message-my");
             }
@@ -176,13 +177,35 @@ let Chat = {
                 database.setChatUser(chatId);
             }
 
+            const sendBtn = document.getElementById("send-btn");
+            const messageBox = document.getElementById("message-box");
+            if (sendBtn) {
+                sendBtn.addEventListener('click', async () => {
+                    if (messageBox.value.trim() !== "") {
+                        let datetime = new Date();
+                        let timestamp = firebase.firestore.Timestamp.fromDate(datetime);
+                        let text = messageBox.value;
+                        let user = auth.currentUser.uid;
+                        let status = "unread";
+                        let message = {
+                            datetime: timestamp,
+                            status: status,
+                            text: text,
+                            user: user
+                        };
+                        await database.sendMessage(message, chatId);
+                        messageBox.value = "";
+                    }
+                })
+            }
+
             let query = firestore
                 .collection('chats/' + chatId + '/messages')
                 .orderBy('datetime', 'asc');
             query.onSnapshot(async function (snapshot) {
                 let changes = snapshot.docChanges();
                 for (const change of changes) {
-                    await processMessage(change.doc.data());
+                    await processMessage(change.doc);
                 }
             })
             

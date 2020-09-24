@@ -25,7 +25,12 @@ export async function getUserAvatar(uid) {
     let userRef = firestore.collection("users").doc(uid);
     let avatar;
     await userRef.get().then(function (doc) {
-        avatar = doc.data().avatar;
+        let data = doc.data();
+        if (data.avatar !== undefined) {
+            avatar = doc.data().avatar;
+        } else {
+            avatar = "default-avatar.png";
+        }
     })
     return avatar;
 }
@@ -63,7 +68,7 @@ export function setImage(file, imageId, extension) {
 }
 
 export function setChatId(id) {
-    let chatIdRef = firestore.collection("counters").doc("chat_count");
+    let chatIdRef = firestore.collection("counters").doc("chats_count");
     chatIdRef.update({
         counter: id
     })
@@ -116,5 +121,15 @@ export function setChatUser(chatId) {
     let userRef = firestore.collection("users").doc(auth.currentUser.uid);
     userRef.update({
         [`chats.${chatId}`]: chatId.toString()
+    })
+}
+
+export async function sendMessage(message, chatId) {
+    let messageRef = firestore.collection('chats/' + chatId + '/messages')
+    messageRef.add({
+        datetime: message.datetime,
+        status: message.status,
+        text: message.text,
+        user: message.user
     })
 }

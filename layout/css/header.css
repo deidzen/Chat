@@ -37,6 +37,7 @@ header > nav > button {
     background-color: transparent;
     border-style: none;
     outline: none;
+    cursor: pointer;
 }
 
 header > nav > a {
