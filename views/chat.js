@@ -7,10 +7,10 @@ let Chat = {
             <header>
                 <a href="/#/chat" id="logo">Chat</a>
                 <nav>
-                    <a href="#"><i class="far fa-moon"></i></a>
+                    <button><i class="far fa-moon"></i></button>
                     <a href="#/add-chat"><i class="fas fa-plus-circle"></i></a>
                     <a href="#/settings"><i class="fas fa-user-cog"></i></a>
-                    <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i></a>
+                    <button id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
                 </nav>
             </header>
             <main class="main" id="main">
@@ -41,7 +41,7 @@ let Chat = {
                 </section>
                 <section class="chat-window" id="chat-window">
                     <div class="chat-header">
-                        <p class="chat-name" id="chat-name">VIP only</p>
+                        <p class="chat-name" id="chat-name"></p>
                     </div>
 
                     <div class="chat-history" id="chat-history">

@@ -7,7 +7,7 @@ let Register = {
             <header>
                 <a href="/" id="logo">Chat</a>
                 <nav>
-                    <a href="#"><i class="far fa-moon"></i></a>
+                    <button><i class="far fa-moon"></i></button>
                 </nav>
             </header>
             <main>

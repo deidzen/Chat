@@ -30,6 +30,15 @@ header > nav {
     align-items: center;
 }
 
+header > nav > button {
+    font-size: 35px;
+    padding: 4px 8px;
+    color: var(--font-color);
+    background-color: transparent;
+    border-style: none;
+    outline: none;
+}
+
 header > nav > a {
     font-size: 35px;
     padding: 4px 8px;
