@@ -41,10 +41,14 @@
     background-color: var(--darker);
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 /*************************************************/
 
 /* для элемента input c type="checkbox" */
-.custom-checkbox {
+  .custom-checkbox {
     position: absolute;
     z-index: -1;
     opacity: 0;
